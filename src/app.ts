@@ -1,3 +1,5 @@
+import "reflect-metadata";
+
 import express, { Application, json } from "express";
 import cors from "cors";
 import { Sequelize } from "sequelize-typescript";
@@ -11,7 +13,7 @@ import transactionsRoutes from "./routes/transactionsRoutes";
 import balancesRoutes from "./routes/balancesRoutes";
 
 const app: Application = express();
-const port: number = 3000;
+const port: number = process.env.NODE_ENV === "production" ? 3000 : 8080;
 const { DB_HOST, DB_USER, DB_NAME } = process.env;
 
 app.use(cors());
