@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: sunshine-daisy-bank-deployment
-    namespace: sunshine-daisy-bank
+    name: sdb-deployment
+    namespace: sdb
 spec:
     replicas: 1
     selector:
@@ -14,7 +14,8 @@ spec:
                 app: backend
         spec:
             containers:
-                - name: sunshine-daisy-bank-container
-                  image: sunshine-daisy-bank:latest
+                - name: sdb-container
+                  image: sdb:latest
+                  imagePullPolicy: Never
                   ports:
                       - containerPort: 3000
