@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: backend-config
+data:
+    DB_NAME: sdb
+    DB_USER: aditya.shakya
+    DB_HOST: postgres
+    DB_PORT: "5432"

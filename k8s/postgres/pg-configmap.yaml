@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: pg-config
+data:
+    DB_USER: aditya.shakya
+    DB_NAME: sdb
+    DB_HOST: localhost
+    DB_PORT: "5432"

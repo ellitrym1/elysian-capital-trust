@@ -17,5 +17,8 @@ spec:
                 - name: sdb-container
                   image: sdb:latest
                   imagePullPolicy: Never
+                  envFrom:
+                      - configMapRef:
+                            name: backend-config
                   ports:
                       - containerPort: 3000
