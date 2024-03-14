@@ -15,8 +15,8 @@ import transactionsRoutes from "./routes/transactionsRoutes";
 import balancesRoutes from "./routes/balancesRoutes";
 
 const app: Application = express();
-const port: number = process.env.NODE_ENV === "production" ? 3000 : 8080;
-const { DB_HOST, DB_USER, DB_NAME } = process.env;
+const port: number = 3000;
+const { DB_HOST, DB_USER, DB_NAME, DB_PORT } = process.env;
 
 app.use(cors());
 app.use(json());
@@ -28,7 +28,7 @@ const sequelize = new Sequelize({
     username: DB_USER,
     database: DB_NAME,
     host: DB_HOST,
-    port: 5432,
+    port: parseInt(DB_PORT || "5432"),
     models: [__dirname + "/models"],
     logging: false,
 });
