@@ -10,6 +10,8 @@ export const createTransaction = async (req: Request, res: Response) => {
         const fromWallet = await Wallet.findByPk(fromWalletId);
         const toWallet = await Wallet.findByPk(toWalletId);
 
+        const transactionAmount = parseFloat(amount);
+
         if (!fromWallet || !toWallet) {
             return res.status(404).json({ error: "Wallet not found" });
         }
@@ -18,10 +20,10 @@ export const createTransaction = async (req: Request, res: Response) => {
         //     return res.status(400).json({ error: "Insufficient balance" });
         // }
 
-        fromWallet.balance -= amount;
+        fromWallet.balance -= transactionAmount;
         await fromWallet.save();
 
-        toWallet.balance += amount;
+        toWallet.balance = Number(toWallet.balance) + Number(transactionAmount);
         await toWallet.save();
 
         await Transaction.create({
