@@ -1,22 +1,37 @@
 import { Request, Response } from "express";
 import Transaction from "../models/transaction";
+import Wallet from "../models/wallet";
+import { Op } from "sequelize";
 
 export const createTransaction = async (req: Request, res: Response) => {
-    const { toWalletId, amount, description } = req.body;
-    const { walletId } = req.params;
-
     try {
-        const transaction = await Transaction.create({
-            fromWalletId: walletId,
+        const { fromWalletId, toWalletId, amount, description } = req.body;
+
+        const fromWallet = await Wallet.findByPk(fromWalletId);
+        const toWallet = await Wallet.findByPk(toWalletId);
+
+        if (!fromWallet || !toWallet) {
+            return res.status(404).json({ error: "Wallet not found" });
+        }
+
+        // if (fromWallet.balance < amount) {
+        //     return res.status(400).json({ error: "Insufficient balance" });
+        // }
+
+        fromWallet.balance -= amount;
+        await fromWallet.save();
+
+        toWallet.balance += amount;
+        await toWallet.save();
+
+        await Transaction.create({
+            fromWalletId,
             toWalletId,
             amount,
             description,
         });
 
-        res.status(201).json({
-            message: "Transaction created successfully.",
-            transaction,
-        });
+        res.status(201).json({ message: "Transaction created successfully." });
     } catch (error) {
         console.error("Error creating transaction:", error);
         res.status(500).json({ error: "Failed to create transaction." });
@@ -45,7 +60,9 @@ export const getTransactionsForWallet = async (req: Request, res: Response) => {
 
     try {
         const transactions = await Transaction.findAll({
-            where: { fromWalletId: walletId },
+            where: {
+                [Op.or]: [{ fromWalletId: walletId }, { toWalletId: walletId }],
+            },
         });
 
         res.json({ transactions });

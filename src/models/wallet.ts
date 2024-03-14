@@ -5,11 +5,9 @@ import {
     Model,
     ForeignKey,
     HasMany,
-    HasOne,
 } from "sequelize-typescript";
 import Account from "./account";
 import Transaction from "./transaction";
-import Balance from "./balance";
 
 enum WalletType {
     PRIMARY = "primary",
