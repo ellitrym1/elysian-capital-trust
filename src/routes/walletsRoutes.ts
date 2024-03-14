@@ -3,7 +3,8 @@ import * as walletsController from "../controllers/walletsController";
 
 const router = Router();
 
-router.post("/", walletsController.createWallet);
-router.get("/:walletId", walletsController.getWalletDetails);
+router.get("/:accountId/wallets", walletsController.getWallets);
+router.post("/:accountId/wallets", walletsController.createWallet);
+router.get("/:accountId/wallets/:walletId", walletsController.getWalletDetails);
 
 export default router;

@@ -11,6 +11,11 @@ import Account from "./account";
 import Transaction from "./transaction";
 import Balance from "./balance";
 
+enum WalletType {
+    PRIMARY = "primary",
+    SECONDARY = "secondary",
+}
+
 @Table({
     timestamps: true,
     tableName: "wallets",
@@ -32,8 +37,19 @@ export default class Wallet extends Model {
     })
     accountId!: number;
 
-    @HasOne(() => Balance)
-    balance!: Balance;
+    @Column({
+        type: DataType.ENUM(...Object.values(WalletType)),
+        allowNull: false,
+        defaultValue: WalletType.SECONDARY,
+    })
+    walletType!: WalletType;
+
+    @Column({
+        type: DataType.DECIMAL(10, 2),
+        allowNull: false,
+        defaultValue: 0,
+    })
+    balance!: number;
 
     @HasMany(() => Transaction)
     transactions!: Transaction[];

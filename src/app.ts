@@ -11,6 +11,7 @@ import accountsRoutes from "./routes/accountsRoutes";
 import walletsRoutes from "./routes/walletsRoutes";
 import transactionsRoutes from "./routes/transactionsRoutes";
 import balancesRoutes from "./routes/balancesRoutes";
+import { error } from "console";
 
 const app: Application = express();
 const port: number = process.env.NODE_ENV === "production" ? 3000 : 8080;
@@ -28,18 +29,13 @@ const sequelize = new Sequelize({
     host: DB_HOST,
     port: 5432,
     models: [__dirname + "/models"],
+    logging: false,
 });
 
 app.use(`${apiPrefix}/accounts`, accountsRoutes);
-app.use(`${apiPrefix}/accounts/:accountId/wallets`, walletsRoutes);
-app.use(
-    `${apiPrefix}/accounts/:accountId/wallets/:walletId/transactions`,
-    transactionsRoutes
-);
-app.use(
-    `${apiPrefix}/accounts/:accountId/wallets/:walletId/balance`,
-    balancesRoutes
-);
+app.use(`${apiPrefix}/accounts`, walletsRoutes);
+app.use(`${apiPrefix}/accounts`, transactionsRoutes);
+app.use(`${apiPrefix}/accounts`, balancesRoutes);
 
 sequelize
     .sync()

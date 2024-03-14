@@ -1,4 +1,11 @@
-import { Table, Column, DataType, Model, HasMany } from "sequelize-typescript";
+import {
+    Table,
+    Column,
+    DataType,
+    Model,
+    HasMany,
+    AfterCreate,
+} from "sequelize-typescript";
 import Wallet from "./wallet";
 
 @Table({
@@ -61,4 +68,14 @@ export default class Account extends Model {
 
     @HasMany(() => Wallet)
     wallets!: Wallet[];
+
+    @AfterCreate
+    static async afterCreateAccountHook(account: Account) {
+        const primaryWallet = await Wallet.create({
+            accountId: account.accountId,
+            walletType: "primary",
+        });
+
+        await account.$add("wallet", primaryWallet);
+    }
 }
