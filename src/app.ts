@@ -3,7 +3,9 @@ import "reflect-metadata";
 import express, { Application, json } from "express";
 import cors from "cors";
 import { Sequelize } from "sequelize-typescript";
+import swaggerUi from "swagger-ui-express";
 import dotenv from "dotenv";
+import swaggerDocument from "./swagger.json";
 
 dotenv.config();
 
@@ -11,7 +13,6 @@ import accountsRoutes from "./routes/accountsRoutes";
 import walletsRoutes from "./routes/walletsRoutes";
 import transactionsRoutes from "./routes/transactionsRoutes";
 import balancesRoutes from "./routes/balancesRoutes";
-import { error } from "console";
 
 const app: Application = express();
 const port: number = process.env.NODE_ENV === "production" ? 3000 : 8080;
@@ -31,6 +32,8 @@ const sequelize = new Sequelize({
     models: [__dirname + "/models"],
     logging: false,
 });
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(`${apiPrefix}/accounts`, accountsRoutes);
 app.use(`${apiPrefix}/accounts`, walletsRoutes);
