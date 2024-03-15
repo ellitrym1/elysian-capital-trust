@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: sdb-deployment
-    namespace: sdb
+    name: ect-deployment
+    namespace: ect
 spec:
     replicas: 1
     selector:
@@ -14,8 +14,8 @@ spec:
                 app: backend
         spec:
             containers:
-                - name: sdb-container
-                  image: sdb:latest
+                - name: ect-container
+                  image: ect:latest
                   imagePullPolicy: Never
                   envFrom:
                       - configMapRef:

@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
     name: backend-config
 data:
-    DB_NAME: sdb
+    DB_NAME: ect
     DB_USER: postgres
     DB_HOST: pg-service
     DB_PORT: "5432"

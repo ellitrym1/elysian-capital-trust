@@ -4,6 +4,6 @@ metadata:
     name: pg-config
 data:
     DB_USER: aditya.shakya
-    DB_NAME: sdb
+    DB_NAME: ect
     DB_HOST: localhost
     DB_PORT: "5432"
