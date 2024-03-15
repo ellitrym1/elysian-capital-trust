@@ -4,7 +4,6 @@ import Account from "../models/account";
 export const registerAccount = async (req: Request, res: Response) => {
     try {
         const {
-            registrationNumber,
             firstName,
             lastName,
             phoneNumber,
@@ -13,7 +12,6 @@ export const registerAccount = async (req: Request, res: Response) => {
             address,
         } = req.body;
         const account = await Account.create({
-            registrationNumber,
             firstName,
             lastName,
             phoneNumber,
