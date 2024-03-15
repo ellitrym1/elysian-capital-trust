@@ -29,6 +29,12 @@ export default class Account extends Model {
     registrationNumber!: string;
 
     @Column({
+        type: DataType.NUMBER,
+        allowNull: false,
+    })
+    pinCode!: number;
+
+    @Column({
         type: DataType.STRING,
         allowNull: false,
     })

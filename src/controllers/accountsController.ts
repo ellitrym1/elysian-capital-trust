@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import Account from "../models/account";
 
-export const createAccount = async (req: Request, res: Response) => {
+export const registerAccount = async (req: Request, res: Response) => {
     try {
         const {
             registrationNumber,
@@ -29,6 +29,27 @@ export const createAccount = async (req: Request, res: Response) => {
         console.error("Error creating account:", error);
         res.status(500).json({
             error: "An error occurred while creating the account",
+        });
+    }
+};
+
+export const loginAccount = async (req: Request, res: Response) => {
+    try {
+        const { registrationNumber, pinCode } = req.body;
+        const account = await Account.findOne({
+            where: {
+                registrationNumber: registrationNumber,
+                pinCode: pinCode,
+            },
+        });
+        res.status(201).json({
+            message: `Logged in successfully ${registrationNumber} ${pinCode}`,
+            account,
+        });
+    } catch (error) {
+        console.error("Error logging in:", error);
+        res.status(500).json({
+            error: "An error occurred while logging in",
         });
     }
 };
