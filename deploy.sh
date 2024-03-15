@@ -1,9 +1,9 @@
 #!/bin/bash
 
-docker rmi -f sdb:latest
+docker rmi -f ect:latest
 
-docker build -t sdb:latest .
+docker build -t ect:latest .
 
-kubectl apply -f k8s/deployment.yaml -n sdb
+kubectl apply -f k8s/deployment.yaml -n ect
 
-kubectl delete pod -n sdb -l app=backend
+kubectl delete pod -n ect -l app=backend
